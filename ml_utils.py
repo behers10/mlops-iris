@@ -3,8 +3,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
+#new model
+from sklearn.tree import DecisionTreeClassifier
+
 # define a Gaussain NB classifier
 clf = GaussianNB()
+clf2 = DecisionTreeClassifier()
 
 # define the class encodings and reverse encodings
 classes = {0: "Iris Setosa", 1: "Iris Versicolour", 2: "Iris Virginica"}
@@ -18,10 +22,18 @@ def load_model():
     # do the test-train split and train the model
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     clf.fit(X_train, y_train)
+    clf2.fit(X_train, y_train)
 
     # calculate the print the accuracy score
-    acc = accuracy_score(y_test, clf.predict(X_test))
-    print(f"Model trained with accuracy: {round(acc, 3)}")
+    acc1 = accuracy_score(y_test, clf.predict(X_test))
+    acc2 = accuracy_score(y_test, clf2.predict(X_test))
+    if acc1>acc2:
+        acc=acc1
+        wclf=clf
+    else:
+        acc=acc2
+        wclf=clf2
+    print(f"Model {wclf} trained with accuracy: {round(acc, 3)}")
 
 
 # function to predict the flower using the model
